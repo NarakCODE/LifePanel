@@ -2,21 +2,24 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldContent, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
+import { useLogin } from "@/hooks/use-auth-queries";
 
 const formSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address." }),
+  email: z.email({ message: "Please enter a valid email address." }),
   password: z.string().min(6, { message: "Password must be at least 6 characters." }),
   remember: z.boolean().optional(),
 });
 
 export function LoginForm() {
+  const { mutateAsync: login, isPending: isSubmitting } = useLogin();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -26,14 +29,12 @@ export function LoginForm() {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    toast("You submitted the following values", {
-      description: (
-        <pre className="mt-2 w-[320px] rounded-md bg-neutral-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    try {
+      await login({ email: data.email, password: data.password });
+    } catch {
+      // Handled by the hook (shows Toast error)
+    }
   };
 
   return (
@@ -51,6 +52,7 @@ export function LoginForm() {
                 type="email"
                 placeholder="you@example.com"
                 autoComplete="email"
+                disabled={isSubmitting}
                 aria-invalid={fieldState.invalid}
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -69,6 +71,7 @@ export function LoginForm() {
                 type="password"
                 placeholder="••••••••"
                 autoComplete="current-password"
+                disabled={isSubmitting}
                 aria-invalid={fieldState.invalid}
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -85,6 +88,7 @@ export function LoginForm() {
                 name={field.name}
                 checked={field.value}
                 onCheckedChange={(checked) => field.onChange(Boolean(checked))}
+                disabled={isSubmitting}
                 aria-invalid={fieldState.invalid}
               />
               <FieldContent>
@@ -97,7 +101,8 @@ export function LoginForm() {
           )}
         />
       </FieldGroup>
-      <Button className="w-full" type="submit">
+      <Button className="w-full" type="submit" disabled={isSubmitting}>
+        {isSubmitting && <Spinner className="mr-2 border-white" />}
         Login
       </Button>
     </form>

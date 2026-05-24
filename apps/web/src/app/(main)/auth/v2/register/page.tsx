@@ -11,26 +11,32 @@ export default function RegisterV2() {
   return (
     <>
       <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-87.5">
-        <div className="space-y-2 text-center">
-          <h1 className="font-medium text-3xl">Create your account</h1>
-          <p className="text-muted-foreground text-sm">Please enter your details to register.</p>
-        </div>
-        <div className="space-y-4">
-          <GoogleButton className="w-full" />
-          <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-border after:border-t">
-            <span className="relative z-10 bg-background px-2 text-muted-foreground">Or continue with</span>
-          </div>
-          <RegisterForm />
-
-          <div className="flex w-full justify-center px-10">
-            <div className="text-muted-foreground text-sm">
-              Already have an account?{" "}
-              <Link prefetch={false} className="text-foreground" href="login">
-                Login
-              </Link>
+        <RegisterForm
+          header={
+            <div className="space-y-2 text-center">
+              <h1 className="font-medium text-3xl">Create your account</h1>
+              <p className="text-muted-foreground text-sm">Please enter your details to register.</p>
             </div>
-          </div>
-        </div>
+          }
+          socialButtons={
+            <div className="space-y-4">
+              <GoogleButton className="w-full" />
+              <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-border after:border-t">
+                <span className="relative z-10 bg-background px-2 text-muted-foreground">Or continue with</span>
+              </div>
+            </div>
+          }
+          footer={
+            <div className="flex w-full justify-center px-10">
+              <div className="text-muted-foreground text-sm">
+                Already have an account?{" "}
+                <Link prefetch={false} className="text-foreground" href="login">
+                  Login
+                </Link>
+              </div>
+            </div>
+          }
+        />
       </div>
 
       <div className="absolute bottom-5 flex w-full justify-between px-10">
