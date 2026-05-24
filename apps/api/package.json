@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "@repo/api",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -29,6 +29,7 @@
     "drop:chat-collections": "ts-node tools/maintenance/drop-chat-collections.ts"
   },
   "dependencies": {
+    "@repo/shared-types": "workspace:*",
     "@nest-lab/throttler-storage-redis": "^1.2.0",
     "@nestjs/axios": "^4.0.1",
     "@nestjs/common": "^11.0.1",
