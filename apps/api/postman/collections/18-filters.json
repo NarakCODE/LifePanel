@@ -1,0 +1,31 @@
+{
+  "info": {
+    "name": "18 - Filters",
+    "description": "Filter options for various dashboards.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Performance Filters",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/filters/performance",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "filters",
+            "performance"
+          ]
+        }
+      }
+    }
+  ]
+}

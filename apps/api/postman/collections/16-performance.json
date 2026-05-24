@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "16 - Performance",
+    "description": "Performance analytics and dashboard data.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Performance Dashboard",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/performance?projectId=all&member=JD&startDate=2024-03-01&endDate=2024-03-31",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "performance"
+          ],
+          "query": [
+            {
+              "key": "projectId",
+              "value": "all"
+            },
+            {
+              "key": "member",
+              "value": "JD"
+            },
+            {
+              "key": "startDate",
+              "value": "2024-03-01"
+            },
+            {
+              "key": "endDate",
+              "value": "2024-03-31"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

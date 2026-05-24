@@ -1,0 +1,107 @@
+{
+  "name": "Life Dashboard - Local",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "refreshToken",
+      "value": "",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "workspaceId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "invitationId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "memberId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "projectId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "workstreamId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "taskId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "habitId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "habitLogId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "goalId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "budgetId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "transactionId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "journalEntryId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "notificationId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    }
+  ]
+}

@@ -1,0 +1,258 @@
+{
+  "info": {
+    "name": "13 - Issues",
+    "description": "Linear-style issue management with workspace scoping and filtering.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Issue",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();",
+              "const issueId = response.id || response.data?.id || response.data?.issue?.id || '';",
+              "if (issueId) {",
+              "  pm.environment.set('issueId', issueId);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Fix backlog drag duplication\",\n  \"description\": \"Cards can duplicate when moving quickly between backlog columns.\",\n  \"status\": \"backlog\",\n  \"priority\": \"high\",\n  \"type\": \"bug\",\n  \"projectId\": \"{{projectId}}\",\n  \"assigneeId\": \"{{userId}}\",\n  \"labels\": [\n    \"frontend\",\n    \"bugfix\"\n  ],\n  \"dueDate\": \"2026-06-01T00:00:00.000Z\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/issues",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "issues"
+          ]
+        }
+      }
+    },
+    {
+      "name": "List Issues",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/issues?status=backlog,todo&priority=high,urgent&type=bug,task&projectId={{projectId}}&assigneeIds={{userId}}&labels=frontend,bugfix&search=drag&page=1&limit=20&sortBy=updatedAt&sortOrder=desc",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "issues"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "backlog,todo"
+            },
+            {
+              "key": "priority",
+              "value": "high,urgent"
+            },
+            {
+              "key": "type",
+              "value": "bug,task"
+            },
+            {
+              "key": "projectId",
+              "value": "{{projectId}}"
+            },
+            {
+              "key": "assigneeIds",
+              "value": "{{userId}}"
+            },
+            {
+              "key": "labels",
+              "value": "frontend,bugfix"
+            },
+            {
+              "key": "search",
+              "value": "drag"
+            },
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            },
+            {
+              "key": "sortBy",
+              "value": "updatedAt"
+            },
+            {
+              "key": "sortOrder",
+              "value": "desc"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get My Issues",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/issues/my-issues?status=todo,in-progress&limit=20&sortBy=updatedAt&sortOrder=desc",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "issues",
+            "my-issues"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "todo,in-progress"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            },
+            {
+              "key": "sortBy",
+              "value": "updatedAt"
+            },
+            {
+              "key": "sortOrder",
+              "value": "desc"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Issue by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/issues/{{issueId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "issues",
+            "{{issueId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update Issue",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"in-review\",\n  \"priority\": \"urgent\",\n  \"labels\": [\n    \"frontend\",\n    \"triaged\"\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/issues/{{issueId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "issues",
+            "{{issueId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete Issue",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/issues/{{issueId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "issues",
+            "{{issueId}}"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "info": {
+    "name": "06 - Budgets",
+    "description": "Workspace-scoped budget endpoints, including summary filters aligned with `QueryBudgetDto`.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Budget",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();",
+              "if (response.data?.id) {",
+              "  pm.environment.set('budgetId', response.data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Monthly Groceries\",\n  \"amount\": 500,\n  \"category\": \"food\",\n  \"period\": \"monthly\",\n  \"startDate\": \"2026-03-01T00:00:00.000Z\",\n  \"endDate\": \"2026-03-31T23:59:59.999Z\",\n  \"currency\": \"USD\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/budgets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "budgets"
+          ]
+        }
+      }
+    },
+    {
+      "name": "List Budgets",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/budgets?page=1&limit=20&period=monthly&isActive=true",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "budgets"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            },
+            {
+              "key": "period",
+              "value": "monthly"
+            },
+            {
+              "key": "isActive",
+              "value": "true"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Budget by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/budgets/{{budgetId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "budgets",
+            "{{budgetId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update Budget",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 550,\n  \"category\": \"food\",\n  \"isActive\": true\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/budgets/{{budgetId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "budgets",
+            "{{budgetId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete Budget",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/budgets/{{budgetId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "budgets",
+            "{{budgetId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Budget Summary",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/budgets/summary?period=monthly&category=food&isActive=true",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "budgets",
+            "summary"
+          ],
+          "query": [
+            {
+              "key": "period",
+              "value": "monthly"
+            },
+            {
+              "key": "category",
+              "value": "food"
+            },
+            {
+              "key": "isActive",
+              "value": "true"
+            }
+          ]
+        },
+        "description": "Budget summary now uses the same filters as budget listing, not `dateFrom` / `dateTo`."
+      }
+    }
+  ]
+}

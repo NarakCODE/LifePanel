@@ -1,0 +1,257 @@
+{
+  "info": {
+    "name": "04 - Habit Logs",
+    "description": "Workspace-scoped habit log endpoints for tracking completion history.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Habit Log",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();",
+              "if (response.data?.id) {",
+              "  pm.environment.set('habitLogId', response.data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"habitId\": \"{{habitId}}\",\n  \"loggedDate\": \"2026-03-20T00:00:00.000Z\",\n  \"count\": 1,\n  \"notes\": \"Felt great today!\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/habit-logs",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "habit-logs"
+          ]
+        }
+      }
+    },
+    {
+      "name": "List All Habit Logs",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/habit-logs?page=1&limit=20",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "habit-logs"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "List Logs by Habit",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/habit-logs/habit/{{habitId}}?page=1&limit=30",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "habit-logs",
+            "habit",
+            "{{habitId}}"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "30"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Habit Log by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/habit-logs/{{habitLogId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "habit-logs",
+            "{{habitLogId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update Habit Log",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"count\": 2,\n  \"notes\": \"Completed an extra set.\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/habit-logs/{{habitLogId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "habit-logs",
+            "{{habitLogId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete Habit Log",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/habit-logs/{{habitLogId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "habit-logs",
+            "{{habitLogId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Filter by Date Range",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/habit-logs?startDate=2026-03-01T00:00:00.000Z&endDate=2026-03-31T23:59:59.999Z&page=1&limit=50",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "habit-logs"
+          ],
+          "query": [
+            {
+              "key": "startDate",
+              "value": "2026-03-01T00:00:00.000Z"
+            },
+            {
+              "key": "endDate",
+              "value": "2026-03-31T23:59:59.999Z"
+            },
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "50"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,264 @@
+{
+  "info": {
+    "name": "08 - Journal Entries",
+    "description": "Workspace-scoped journaling endpoints, including mood summary and search filters.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Journal Entry",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();",
+              "if (response.data?.id) {",
+              "  pm.environment.set('journalEntryId', response.data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"entryDate\": \"2026-03-21T00:00:00.000Z\",\n  \"title\": \"Productive Day\",\n  \"content\": \"Today was a productive day with steady progress across the workspace migration.\",\n  \"mood\": 4,\n  \"tags\": [\n    \"productivity\",\n    \"gratitude\"\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/journal-entries",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "journal-entries"
+          ]
+        }
+      }
+    },
+    {
+      "name": "List Journal Entries",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/journal-entries?page=1&limit=20&mood=4&sortBy=entryDate",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "journal-entries"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            },
+            {
+              "key": "mood",
+              "value": "4"
+            },
+            {
+              "key": "sortBy",
+              "value": "entryDate"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Journal Entry by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/journal-entries/{{journalEntryId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "journal-entries",
+            "{{journalEntryId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update Journal Entry",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Very Productive Day\",\n  \"mood\": 5,\n  \"tags\": [\n    \"productivity\",\n    \"focus\"\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/journal-entries/{{journalEntryId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "journal-entries",
+            "{{journalEntryId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete Journal Entry",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/journal-entries/{{journalEntryId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "journal-entries",
+            "{{journalEntryId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Mood Summary",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/journal-entries/mood-summary?dateFrom=2026-03-01T00:00:00.000Z&dateTo=2026-03-31T23:59:59.999Z",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "journal-entries",
+            "mood-summary"
+          ],
+          "query": [
+            {
+              "key": "dateFrom",
+              "value": "2026-03-01T00:00:00.000Z"
+            },
+            {
+              "key": "dateTo",
+              "value": "2026-03-31T23:59:59.999Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Search Entries",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/journal-entries?tag=gratitude&search=productive&page=1&limit=20",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "journal-entries"
+          ],
+          "query": [
+            {
+              "key": "tag",
+              "value": "gratitude"
+            },
+            {
+              "key": "search",
+              "value": "productive"
+            },
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

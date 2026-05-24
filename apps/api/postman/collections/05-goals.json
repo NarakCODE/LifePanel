@@ -1,0 +1,346 @@
+{
+  "info": {
+    "name": "05 - Goals",
+    "description": "Workspace-scoped goal management, progress logging, and cross-entity linking.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Goal",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();",
+              "if (response.data?.id) {",
+              "  pm.environment.set('goalId', response.data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Run 100km this month\",\n  \"description\": \"Training for the marathon\",\n  \"targetValue\": 100,\n  \"unit\": \"km\",\n  \"type\": \"manual\",\n  \"dueDate\": \"2026-03-31T00:00:00.000Z\",\n  \"status\": \"active\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/goals",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "goals"
+          ]
+        }
+      }
+    },
+    {
+      "name": "List Goals",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/goals?page=1&limit=20&status=active&type=manual",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "goals"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            },
+            {
+              "key": "status",
+              "value": "active"
+            },
+            {
+              "key": "type",
+              "value": "manual"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Goal by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/goals/{{goalId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "goals",
+            "{{goalId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update Goal",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"description\": \"Updated training plan\",\n  \"currentValue\": 25\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/goals/{{goalId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "goals",
+            "{{goalId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete Goal",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/goals/{{goalId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "goals",
+            "{{goalId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Link Tasks to Goal",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"taskIds\": [\n    \"{{taskId}}\"\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/goals/{{goalId}}/link-tasks",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "goals",
+            "{{goalId}}",
+            "link-tasks"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Unlink Task from Goal",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/goals/{{goalId}}/unlink-task/{{taskId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "goals",
+            "{{goalId}}",
+            "unlink-task",
+            "{{taskId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Link Habits to Goal",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"habitIds\": [\n    \"{{habitId}}\"\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/goals/{{goalId}}/link-habits",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "goals",
+            "{{goalId}}",
+            "link-habits"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Unlink Habit from Goal",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/goals/{{goalId}}/unlink-habit/{{habitId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "goals",
+            "{{goalId}}",
+            "unlink-habit",
+            "{{habitId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Log Progress",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-workspace-id",
+            "value": "{{workspaceId}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"value\": 5,\n  \"note\": \"Completed another training run.\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/goals/{{goalId}}/log-progress",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "goals",
+            "{{goalId}}",
+            "log-progress"
+          ]
+        }
+      }
+    }
+  ]
+}
